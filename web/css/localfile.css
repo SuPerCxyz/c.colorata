@@ -1,0 +1,33 @@
+body {
+    font-family: sans-serif;
+  }
+
+
+.file-entry {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.file-info {
+    max-width: 200px;
+    overflow: auto;
+    display: inline-block;
+    margin: 5px;
+    padding: 1px;
+    border-collapse: 0;
+    /* text-align: left;
+    vertical-align: middle; */
+}
+
+.file-info-size {
+    max-width: 300px;
+    overflow: auto;
+    white-space: nowrap;
+    padding: 0 20px;
+}
+
+.file-info-time {
+    max-width: 300px;
+    overflow: auto;
+    white-space: nowrap;
+}
