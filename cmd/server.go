@@ -33,7 +33,7 @@ func init() {
 
 func serverRun() {
 	ge := gin.Default()
-	ge.StaticFile("/favicon.ico", "web/favicon.ico")
+	ge.StaticFile("/favicon.ico", "web/img/favicon.ico")
 	ge.LoadHTMLGlob("web/*.html")
 	ge.Static("/web", "./web")
 	api.SetupRoutes(ge)
