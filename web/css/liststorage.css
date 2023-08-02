@@ -1,26 +1,10 @@
-/* 定义按钮的样式 */
-button {
-    display: inline-flex;
-    align-items: center;
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
-  
-  /* 定义按钮图标的样式 */
-.icon {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url("../img/localfile.png"); /* 替换为实际的图标路径 */
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin-right: 5px;
-  }
-
-/* 定义按钮图标隐藏的样式 */
-.icon-hidden {
-    display: none;
-  }
+.localicon {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-image: url("../img/localfile.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: left;
+  vertical-align: middle;
+}

@@ -26,7 +26,7 @@ func FileResource() *FileResourceStruct {
 }
 
 func (frs *FileResourceStruct) Register(router *gin.RouterGroup) {
-	router.GET("/list", frs.listDirFile)
+	router.GET("/file", frs.listDirFile)
 }
 
 func (frs *FileResourceStruct) listDirFile(c *gin.Context) {

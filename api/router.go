@@ -5,19 +5,19 @@ import (
 	// "net/http"
 )
 
-// var defaultHandler = func(c *gin.Context) {
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"path": c.FullPath(),
-// 	})
-// }
+type Resource interface {
+	Register(router *gin.RouterGroup)
+}
 
-// type Resource interface {
-// 	Register(router *gin.RouterGroup)
-// }
+func SetupResource(gr *gin.RouterGroup, resources ...Resource) {
+	for _, resource := range resources {
+		resource.Register(gr)
+	}
+}
 
 func SetupRoutes(ge *gin.Engine) {
-	fileRouter := ge.Group("/file")
-	fr := FileResource()
-	fr.Register(fileRouter)
-	// SetupResource(fileRouter, )
+	gr := ge.Group("/api")
+	// fr := FileResource()
+	// fr.Register(fileRouter)
+	SetupResource(gr, FileResource(), ListStorage())
 }
