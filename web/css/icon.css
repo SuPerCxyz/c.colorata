@@ -1,0 +1,35 @@
+.fileIcon {
+  content: url("../img/file.svg"); /* 引入SVG图标文件 */
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.folderIcon {
+  content: url("../img/folder.svg"); /* 引入SVG图标文件 */
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.linkIcon {
+  content: url("../img/link.svg"); /* 引入SVG图标文件 */
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.returnIcon {
+  content: url("../img/return.svg"); /* 引入SVG图标文件 */
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  text-align: left;
+  vertical-align: middle;
+}
