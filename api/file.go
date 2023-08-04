@@ -3,7 +3,7 @@ package api
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
+	// "log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -45,13 +45,19 @@ func (frs *FileResourceStruct) listDirFile(c *gin.Context) {
 	dirPath := requestData["path"].(string)
 	f, err := os.Open(dirPath)
 	if err != nil {
-		panic(err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
 	}
 	files, err := f.Readdir(-1)
 	f.Close()
 
 	if err != nil {
-		log.Fatal(err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
 	}
 
 	frs.file = []ContentInfo{}
@@ -62,7 +68,10 @@ func (frs *FileResourceStruct) listDirFile(c *gin.Context) {
 		fileInfo, err := os.Stat(absPath)
 		modTime := fileInfo.ModTime()
 		if err != nil {
-			panic(err)
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"error": err.Error(),
+			})
+			return
 		}
 
 		if fileInfo.Mode()&os.ModeSymlink != 0 {

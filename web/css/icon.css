@@ -33,3 +33,24 @@
   text-align: left;
   vertical-align: middle;
 }
+
+.indexIcon {
+  content: url("../img/index.svg"); /* 引入SVG图标文件 */
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.custom-alert {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  background-color: #f44336;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  display: none;
+}

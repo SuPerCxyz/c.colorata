@@ -6,6 +6,7 @@ async function handleBackendData() {
 
     // 处理数据并展示在页面上
     const dataListElement = document.getElementById("dataList");
+    dataListElement.innerHTML = null;
     const listBody = document.createElement("tbody");
 
     data.data.forEach((item) => {
