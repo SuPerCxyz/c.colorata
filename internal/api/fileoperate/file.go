@@ -1,7 +1,8 @@
-package api
+package fileoperate
 
 import (
 	"fmt"
+	"github.com/SuPerCxyz/c.colorata/internal"
 	"github.com/gin-gonic/gin"
 	// "log"
 	"net/http"
@@ -17,9 +18,6 @@ type ContentInfo struct {
 	Path        string    `json:"path"`
 	Size        string    `json:"size"`
 	ModifyTime  time.Time `json:"modify_time"`
-	// EnableRead  bool      `json:"enable_read"`
-	// EnableWrite bool      `json:"enable_write"`
-	// Enter       bool      `json:"enter"`
 }
 
 type FileResourceStruct struct {
@@ -75,31 +73,10 @@ func (frs *FileResourceStruct) listDirFile(c *gin.Context) {
 		}
 
 		if fileInfo.Mode()&os.ModeSymlink != 0 {
-			// 如果是软连接，则获取链接指向的实际文件或目录信息
 			frs.file = append(frs.file, ContentInfo{"link", file_name, absPath, "-", modTime})
 		} else {
-			// readErr := syscall.Access(absPath, syscall.O_RDWR)
-			// writeErr := syscall.Access(absPath, syscall.O_WRONLY)
-			// var read bool
-			// if readErr == nil {
-			// 	read = false
-			// } else {
-			// 	read = true
-			// }
-			// var write bool
-			// if writeErr == nil {
-			// 	write = true
-			// } else {
-			// 	write = false
-			// }
-
 			if fileInfo.IsDir() {
 				frs.file = append(frs.file, ContentInfo{"dir", file_name, absPath, "-", modTime})
-				// if read {
-				// 	frs.file = append(frs.file, ContentInfo{"dir", absPath, "-", modTime, read, write, true})
-				// } else {
-				// 	frs.file = append(frs.file, ContentInfo{"dir", absPath, "-", modTime, read, write, false})
-				// }
 			} else {
 				size_B := float64(fileInfo.Size())
 				var i int
@@ -108,13 +85,8 @@ func (frs *FileResourceStruct) listDirFile(c *gin.Context) {
 				}
 				file_size := fmt.Sprintf("%.2f %s", size_B, sizes[i])
 				frs.file = append(frs.file, ContentInfo{"file", file_name, absPath, file_size, modTime})
-				// if read {
-				// 	frs.file = append(frs.file, ContentInfo{"file", absPath, file_size, modTime, read, write, true})
-				// } else {
-				// 	frs.file = append(frs.file, ContentInfo{"file", absPath, file_size, modTime, read, write, false})
-				// }
 			}
 		}
 	}
-	JSONData(c, frs.file)
+	utils.JSONData(c, frs.file)
 }

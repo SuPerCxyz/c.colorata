@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/SuPerCxyz/c.colorata/api"
+	"github.com/SuPerCxyz/c.colorata/internal/api/fileoperate"
 )
 
 type Data struct {
@@ -36,7 +36,7 @@ func serverRun() {
 	ge.StaticFile("/favicon.ico", "web/img/favicon.ico")
 	ge.LoadHTMLGlob("web/*.html")
 	ge.Static("/web", "./web")
-	api.SetupRoutes(ge)
+	fileoperate.SetupRoutes(ge)
 	ge.GET("/", func(c *gin.Context) {
 		data := Data{
 			Message: "Hello from the backend!",
@@ -45,5 +45,5 @@ func serverRun() {
 			"data": data,
 		})
 	})
-	ge.Run(":" + strconv.Itoa(port))
+	ge.Run(":" + strconv.Itoa(viper.GetInt("port")))
 }

@@ -1,34 +1,55 @@
-body {
+.file-entry {
+  width: 1800px;
+  height: 35px;
   font-family: sans-serif;
-  display: grid;
-  place-items: center;
-  height: 10vh;
+  font-size: 23px;
+  text-align: left;
+  white-space: nowrap;
 }
 
-.file-entry {
-  text-align: left;
-  vertical-align: middle;
+.fileIcon {
+  background-image: url("../img/file.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+  width: 50px;
+  max-width: 50px;
+  padding: 3px 5px;
+}
+
+.folderIcon {
+  background-image: url("../img/folder.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+  width: 50px;
+  max-width: 50px;
+  padding: 3px 5px;
 }
 
 .file-info {
-  width: 600px;
-  overflow-x: hidden;
-  display: inline-block;
-  white-space: nowrap;
-  margin: 10px;
-  padding: 1 10px;
+  width: 1150px;
+  max-width: 1150px;
+  padding: 3px 5px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .file-info-size {
   width: 300px;
+  max-width: 300px;
+  padding: 3px 5px;
+  vertical-align: middle;
   overflow: hidden;
-  white-space: nowrap;
-  padding: 1 10px;
+  text-overflow: ellipsis;
 }
 
 .file-info-time {
   width: 300px;
+  max-width: 300px;
+  padding: 3px 5px;
+  vertical-align: middle;
   overflow: hidden;
-  white-space: nowrap;
-  padding: 1 10px;
+  text-overflow: ellipsis;
 }

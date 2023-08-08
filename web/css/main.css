@@ -1,0 +1,17 @@
+body {
+  font-family: sans-serif;
+  display: grid;
+  place-items: center;
+  height: 10vh;
+  width: 1800px;
+  margin: 0 auto;
+  font-family: sans-serif;
+  font-size: 30;
+}
+
+.header-css {
+  color: #9370db;
+  text-align: left;
+  font-size: 30px;
+  padding: 10px;
+}

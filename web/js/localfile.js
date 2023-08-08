@@ -1,6 +1,7 @@
 function displayFiles(data, step, storage_type, source_path, return_path) {
   const dataList = document.getElementById("dataList");
   dataList.innerHTML = "";
+  const listTable = document.createElement("table");
   const listBody = document.createElement("tbody");
 
   const tr = document.createElement("tr");
@@ -114,7 +115,8 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
 
     listBody.appendChild(tr);
   });
-  dataList.appendChild(listBody);
+  listTable.appendChild(listBody)
+  dataList.appendChild(listTable);
 }
 
 function loadAndDisplayFiles(item) {

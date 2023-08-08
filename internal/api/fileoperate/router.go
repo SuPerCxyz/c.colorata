@@ -1,4 +1,4 @@
-package api
+package fileoperate
 
 import (
 	"github.com/gin-gonic/gin"
@@ -17,7 +17,5 @@ func SetupResource(gr *gin.RouterGroup, resources ...Resource) {
 
 func SetupRoutes(ge *gin.Engine) {
 	gr := ge.Group("/api")
-	// fr := FileResource()
-	// fr.Register(fileRouter)
 	SetupResource(gr, FileResource(), ListStorage())
 }

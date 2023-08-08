@@ -5,12 +5,28 @@
     <link rel="stylesheet" href="/web/css/localfile.css" />
     <link rel="stylesheet" href="/web/css/liststorage.css" />
     <link rel="stylesheet" href="/web/css/icon.css" />
+    <link rel="stylesheet" href="/web/css/main.css" />
     <script src="/web/js/localfile.js"></script>
     <script src="/web/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://unpkg.com/vue@3.2.30/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
   </head>
   <body>
-    <header>文件列表</header>
-    <table id="dataList"></table>
+    <header class="header-css">C.colorata</header>
+    <button id="openModalBtn">点击弹窗</button>
+    <div id="myModal" style="display: none">
+      <h2>填写信息</h2>
+      <form id="myForm">
+        <input type="text" name="name" placeholder="存储后端名称" />
+        <input type="text" name="stype" placeholder="存储后端类型" />
+        <input type="text" name="path" placeholder="存储后端路径" />
+        <input type="text" name="username" placeholder="存储认证名称" />
+        <input type="password" name="password" placeholder="存储认证密码" />
+        <input type="submit" value="提交" />
+      </form>
+    </div>
+    <div id="dataList"></div>
     <script src="/web/js/liststorage.js"></script>
     <div class="custom-alert" id="customAlert"></div>
   </body>

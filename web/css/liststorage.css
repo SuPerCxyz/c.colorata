@@ -1,46 +1,43 @@
-body {
+.storage-entry {
+  width: 1800px;
+  height: 35px;
   font-family: sans-serif;
-  font-size: 20;
+  font-size: 23px;
+  text-align: left;
+  white-space: nowrap;
 }
 
 .localicon {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  background-image: url("../img/localfile.png");
-  background-size: cover;
+  background-image: url("../img/localfile.svg");
+  background-size: contain;
   background-repeat: no-repeat;
-  text-align: left;
-  vertical-align: middle;
-}
-
-.storage-entry {
-  text-align: left;
-  vertical-align: middle;
-}
-
-.storage-type {
-  width: 600px;
-  overflow: auto;
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-  border-collapse: 1;
+  background-position: left;
+  width: 50px;
+  max-width: 50px;
+  padding: 3px 5px;
 }
 
 .storage-name {
-  width: 200px;
-  overflow: auto;
-  white-space: nowrap;
-  padding: 0 20px;
-  text-align: left;
+  width: 950px;
+  max-width: 950px;
+  padding: 3px 5px;
   vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.storage-type {
+  width: 400px;
+  padding: 3px 5px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .storage-path {
-  width: 200px;
-  overflow: auto;
-  white-space: nowrap;
-  text-align: left;
+  width: 400px;
+  padding: 3px 5px;
   vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
