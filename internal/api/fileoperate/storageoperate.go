@@ -2,7 +2,6 @@ package fileoperate
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/SuPerCxyz/c.colorata/internal"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
@@ -76,7 +75,6 @@ func (ls *ListStorageStruct) createBackendStorage(c *gin.Context) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(requestData)
 	defer db.Close()
 	createTable := `
 	CREATE TABLE IF NOT EXISTS storage_list (

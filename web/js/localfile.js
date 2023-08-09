@@ -1,4 +1,11 @@
-function displayFiles(data, step, storage_type, source_path, return_path) {
+function displayFiles(
+  data,
+  step,
+  storage_name,
+  storage_type,
+  current_path,
+  request_path
+) {
   const dataList = document.getElementById("dataList");
   dataList.innerHTML = "";
   const listTable = document.createElement("table");
@@ -14,11 +21,13 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
   const th4 = document.createElement("th");
 
   if (step > 0) {
+    const regex = /\/[^/]+$/;
     th1.classList.add("returnIcon");
     headerRow.addEventListener("click", () => {
+      request_path = current_path.replace(regex, "");
       const requestData = {
-        storageType: storage_type,
-        path: return_path,
+        storage_name: storage_name,
+        request_path: request_path,
       };
       fetch("/api/file", {
         method: "POST",
@@ -29,14 +38,14 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
       })
         .then((response) => response.json())
         .then((data) => {
-          let next_return_path = return_path.replace(/\/[^/]*$/, "");
           step -= 1;
           displayFiles(
             data.data,
             step,
+            storage_name,
             storage_type,
-            return_path,
-            next_return_path
+            request_path,
+            request_path
           );
         })
         .catch((error) => {
@@ -55,7 +64,7 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
   th3.classList.add("file-info-size");
   th4.classList.add("file-info-time");
 
-  th2.textContent = source_path;
+  th2.textContent = request_path;
   th3.textContent = null;
   th4.textContent = null;
 
@@ -66,6 +75,7 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
   listHeader.appendChild(headerRow);
 
   data.forEach((item) => {
+    const request_path = current_path + "/" + item.name;
     const item_path = item.path;
     const tr = document.createElement("tr");
     tr.classList.add("file-entry");
@@ -75,8 +85,8 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
       contentType.classList.add("folderIcon");
       tr.addEventListener("dblclick", () => {
         const requestData = {
-          storageType: storage_type,
-          path: item_path,
+          storage_name: storage_name,
+          request_path: request_path,
         };
         fetch("/api/file", {
           method: "POST",
@@ -88,7 +98,14 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
           .then((response) => response.json())
           .then((data) => {
             step += 1;
-            displayFiles(data.data, step, storage_type, item_path, source_path);
+            displayFiles(
+              data.data,
+              step,
+              storage_name,
+              storage_type,
+              request_path,
+              request_path
+            );
           })
           .catch((error) => {
             showCustomAlert(error);
@@ -98,8 +115,8 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
       contentType.classList.add("fileIcon");
       tr.addEventListener("dblclick", () => {
         const requestData = {
-          storageType: storage_type,
-          path: item_path,
+          storage_name: storage_name,
+          request_path: request_path,
         };
         fetch("/api/file/download", {
           method: "POST",
@@ -155,11 +172,11 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
 
 function loadAndDisplayFiles(item) {
   const step = 0;
-  const return_path = null;
-  const source_path = item.path;
+  const current_path = "";
+  const request_path = "";
   const requestData = {
-    storageType: item.storage_type,
-    path: source_path,
+    storage_name: item.name,
+    request_path: request_path,
   };
 
   fetch("/api/file", {
@@ -174,9 +191,10 @@ function loadAndDisplayFiles(item) {
       displayFiles(
         data.data,
         step,
+        item.name,
         item.storage_type,
-        source_path,
-        return_path
+        current_path,
+        request_path
       );
     })
     .catch((error) => {

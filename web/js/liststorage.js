@@ -28,7 +28,7 @@ async function handleBackendData() {
           listItem.appendChild(storageType);
 
           const storagePath = document.createElement("td");
-          storagePath.textContent = item.path;
+          storagePath.textContent = "";
           storagePath.classList.add("storage-path");
           listItem.appendChild(storagePath);
 

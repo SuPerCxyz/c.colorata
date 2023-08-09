@@ -1,9 +1,13 @@
 package fileoperate
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/SuPerCxyz/c.colorata/internal"
 	"github.com/gin-gonic/gin"
+	_ "github.com/mattn/go-sqlite3"
+	"github.com/spf13/viper"
+	"log"
 	// "log"
 	"net/http"
 	"os"
@@ -41,7 +45,25 @@ func (frs *FileResourceStruct) listDirFile(c *gin.Context) {
 		return
 	}
 
-	dirPath := requestData["path"].(string)
+	db_file := viper.GetString("database.path")
+	db, err := sql.Open("sqlite3", db_file)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	selectData := "SELECT (path) FROM storage_list where name = (?)"
+	rows, err := db.Query(selectData, requestData["storage_name"].(string))
+	if err != nil {
+		log.Fatal(err)
+	}
+	var dirPath string
+	for rows.Next() {
+		if err := rows.Scan(&dirPath); err != nil {
+			log.Fatal(err)
+		}
+	}
+	dirPath = dirPath + "/" + requestData["request_path"].(string)
+	fmt.Println(dirPath)
 	f, err := os.Open(dirPath)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
