@@ -2,17 +2,20 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
   const dataList = document.getElementById("dataList");
   dataList.innerHTML = "";
   const listTable = document.createElement("table");
+  const listHeader = document.createElement("thead");
   const listBody = document.createElement("tbody");
 
-  const tr = document.createElement("tr");
-  tr.classList.add("file-entry");
-  const td1 = document.createElement("td");
-  const td2 = document.createElement("td");
-  const td3 = document.createElement("td");
-  const td4 = document.createElement("td");
+  const headerRow = document.createElement("tr");
+  headerRow.classList.add("file-entry");
+
+  const th1 = document.createElement("th");
+  const th2 = document.createElement("th");
+  const th3 = document.createElement("th");
+  const th4 = document.createElement("th");
 
   if (step > 0) {
-    tr.addEventListener("dblclick", () => {
+    th1.classList.add("returnIcon");
+    headerRow.addEventListener("click", () => {
       const requestData = {
         storageType: storage_type,
         path: return_path,
@@ -40,24 +43,27 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
           showCustomAlert(error);
         });
     });
-    td1.classList.add("returnIcon");
-    tr.appendChild(td1);
+    headerRow.appendChild(th1);
   } else {
-    tr.addEventListener("dblclick", () => {
+    th1.classList.add("indexIcon");
+    headerRow.addEventListener("click", () => {
       handleBackendData();
     });
-    td1.classList.add("indexIcon");
-    tr.appendChild(td1);
+    headerRow.appendChild(th1);
   }
+  th2.classList.add("file-info");
+  th3.classList.add("file-info-size");
+  th4.classList.add("file-info-time");
 
-  td2.textContent = source_path;
-  td2.classList.add("file-info");
-  tr.appendChild(td2);
-  td3.classList.add("file-info-size");
-  tr.appendChild(td3);
-  td4.classList.add("file-info-time");
-  tr.appendChild(td4);
-  listBody.appendChild(tr);
+  th2.textContent = source_path;
+  th3.textContent = null;
+  th4.textContent = null;
+
+  headerRow.appendChild(th1);
+  headerRow.appendChild(th2);
+  headerRow.appendChild(th3);
+  headerRow.appendChild(th4);
+  listHeader.appendChild(headerRow);
 
   data.forEach((item) => {
     const item_path = item.path;
@@ -90,6 +96,33 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
       });
     } else if (item.content_type == "file") {
       contentType.classList.add("fileIcon");
+      tr.addEventListener("dblclick", () => {
+        const requestData = {
+          storageType: storage_type,
+          path: item_path,
+        };
+        fetch("/api/file/download", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        })
+          .then((response) => response.blob())
+          .then((blob) => {
+            const fileName = item_path.substring(
+              item_path.lastIndexOf("/") + 1
+            );
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            URL.revokeObjectURL(link.href);
+          })
+          .catch((error) => {
+            showCustomAlert(error);
+          });
+      });
     } else {
       contentType.classList.add("linkIcon");
     }
@@ -115,7 +148,8 @@ function displayFiles(data, step, storage_type, source_path, return_path) {
 
     listBody.appendChild(tr);
   });
-  listTable.appendChild(listBody)
+  listTable.appendChild(listHeader);
+  listTable.appendChild(listBody);
   dataList.appendChild(listTable);
 }
 

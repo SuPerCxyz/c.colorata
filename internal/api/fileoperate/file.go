@@ -30,6 +30,7 @@ func FileResource() *FileResourceStruct {
 
 func (frs *FileResourceStruct) Register(router *gin.RouterGroup) {
 	router.POST("/file", frs.listDirFile)
+	router.POST("/file/download", frs.fileDownload)
 }
 
 func (frs *FileResourceStruct) listDirFile(c *gin.Context) {
@@ -89,4 +90,17 @@ func (frs *FileResourceStruct) listDirFile(c *gin.Context) {
 		}
 	}
 	utils.JSONData(c, frs.file)
+}
+
+func (frs *FileResourceStruct) fileDownload(c *gin.Context) {
+	var requestData map[string]interface{}
+	if err := c.BindJSON(&requestData); err != nil {
+		// 处理请求数据解析错误
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+	filePath := requestData["path"].(string)
+	c.Header("Content-Disposition", "attachment; filename=file.txt")
+	c.Header("Content-Type", "application/octet-stream")
+	c.File(filePath)
 }

@@ -1,8 +1,8 @@
 .storage-entry {
-  width: 1800px;
-  height: 35px;
+  width: 1600px;
+  height: 40px;
   font-family: sans-serif;
-  font-size: 23px;
+  font-size: 20px;
   text-align: left;
   white-space: nowrap;
 }
@@ -18,8 +18,8 @@
 }
 
 .storage-name {
-  width: 950px;
-  max-width: 950px;
+  width: 1050px;
+  max-width: 1050px;
   padding: 3px 5px;
   vertical-align: middle;
   overflow: hidden;
@@ -27,7 +27,7 @@
 }
 
 .storage-type {
-  width: 400px;
+  width: 250px;
   padding: 3px 5px;
   vertical-align: middle;
   overflow: hidden;
@@ -35,7 +35,7 @@
 }
 
 .storage-path {
-  width: 400px;
+  width: 250px;
   padding: 3px 5px;
   vertical-align: middle;
   overflow: hidden;

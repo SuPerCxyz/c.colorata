@@ -1,28 +1,32 @@
 .linkIcon {
   content: url("../img/link.svg"); /* 引入SVG图标文件 */
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  text-align: left;
-  vertical-align: middle;
+  background-image: url("../img/link.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+  width: 50px;
+  max-width: 50px;
+  padding: 3px 5px;
 }
 
 .returnIcon {
-  content: url("../img/return.svg"); /* 引入SVG图标文件 */
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  text-align: left;
-  vertical-align: middle;
+  background-image: url("../img/return.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+  width: 50px;
+  max-width: 50px;
+  padding: 3px 5px;
 }
 
 .indexIcon {
-  content: url("../img/index.svg"); /* 引入SVG图标文件 */
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  text-align: left;
-  vertical-align: middle;
+  background-image: url("../img/index.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+  width: 50px;
+  max-width: 50px;
+  padding: 3px 5px;
 }
 
 .custom-alert {
