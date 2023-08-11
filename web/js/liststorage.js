@@ -50,12 +50,15 @@ function displayButtonAndModal() {
   dataListElement.innerHTML = null;
   // 创建按钮
   const openModalBtn = document.createElement("button");
-  openModalBtn.textContent = "点击弹窗";
+  openModalBtn.textContent = "注册存储后端";
+
+  // 创建弹窗容器
+  const modalContainer = document.createElement("div");
+  modalContainer.id = "modalContainer";
 
   // 创建弹窗内容
   const modalContent = document.createElement("div");
   modalContent.id = "myModal";
-  modalContent.style.display = "none";
 
   const modalTitle = document.createElement("h2");
   modalTitle.textContent = "填写信息";
@@ -92,6 +95,12 @@ function displayButtonAndModal() {
   submitBtn.type = "submit";
   submitBtn.value = "提交";
 
+  const closeModalBtn = document.createElement("button");
+  closeModalBtn.textContent = "关闭";
+  closeModalBtn.addEventListener("click", function () {
+    modalContainer.style.display = "none"; // 关闭弹窗
+  });
+
   // 将元素添加到弹窗内容中
   modalForm.appendChild(nameInput);
   modalForm.appendChild(stypeInput);
@@ -102,10 +111,12 @@ function displayButtonAndModal() {
 
   modalContent.appendChild(modalTitle);
   modalContent.appendChild(modalForm);
+  modalContent.appendChild(closeModalBtn);
 
   // 添加按钮点击事件处理
   openModalBtn.addEventListener("click", function () {
-    modalContent.style.display = "block"; // 显示弹窗
+    modalContainer.style.display = "block"; // 显示弹窗容器
+    modalContent.style.display = "block"; // 显示弹窗内容
   });
 
   // 表单提交事件处理
@@ -139,7 +150,33 @@ function displayButtonAndModal() {
     modalContent.style.display = "none"; // 隐藏弹窗
   });
 
+  // // 设置弹窗容器样式
+  // modalContainer.style.display = "none";
+  // // ...省略弹窗容器样式设置代码...
+
+  // 监听页面点击事件
+  // document.addEventListener("click", function (event) {
+  //   const isClickInsideModal = modalContent.contains(event.target);
+  //   if (!isClickInsideModal) {
+  //     modalContainer.style.display = "none"; // 点击弹窗外部，关闭弹窗
+  //   }
+  // });
+
   // 将按钮添加到页面
+  modalContainer.style.display = "none";
+  modalContainer.style.position = "fixed";
+  modalContainer.style.top = "50%";
+  modalContainer.style.left = "50%";
+  modalContainer.style.transform = "translate(-50%, -50%)";
+  modalContainer.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+  modalContainer.style.width = "300px";
+  modalContainer.style.padding = "20px";
+  modalContainer.style.borderRadius = "10px";
+  modalContainer.style.boxShadow = "0 0 10px rgba(0, 0, 0, 0.5)";
+  modalContainer.style.zIndex = "9999"; // 确保弹窗在最前面
+
+  // 将按钮和弹窗容器添加到页面
   dataListElement.appendChild(openModalBtn);
-  dataListElement.appendChild(modalContent);
+  dataListElement.appendChild(modalContainer);
+  modalContainer.appendChild(modalContent);
 }
