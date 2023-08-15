@@ -10,8 +10,11 @@ function displayFiles(
   const dataList = document.getElementById("dataList");
   dataList.innerHTML = "";
   const listTable = document.createElement("table");
+  listTable.classList.add("file-entry");
   const listHeader = document.createElement("thead");
+  listHeader.classList.add("file-entry");
   const listBody = document.createElement("tbody");
+  listBody.classList.add("file-entry");
 
   const headerRow = document.createElement("tr");
   headerRow.classList.add("file-entry");

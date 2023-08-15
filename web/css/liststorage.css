@@ -12,14 +12,14 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left;
-  width: 50px;
-  max-width: 50px;
+  width: 6%;
+  max-width: 6%;
   padding: 3px 5px;
 }
 
 .storage-name {
-  width: 1050px;
-  max-width: 1050px;
+  width: 64%;
+  max-width: 64%;
   padding: 3px 5px;
   vertical-align: middle;
   overflow: hidden;
@@ -27,7 +27,7 @@
 }
 
 .storage-type {
-  width: 250px;
+  width: 15%;
   padding: 3px 5px;
   vertical-align: middle;
   overflow: hidden;
@@ -35,7 +35,7 @@
 }
 
 .storage-path {
-  width: 250px;
+  width: 15%;
   padding: 3px 5px;
   vertical-align: middle;
   overflow: hidden;

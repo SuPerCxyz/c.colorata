@@ -12,8 +12,8 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left;
-  width: 50px;
-  max-width: 50px;
+  width: 3%;
+  max-width: 3%;
   padding: 3px 5px;
 }
 
@@ -22,13 +22,13 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: left;
-  width: 50px;
-  max-width: 50px;
+  width: 3%;
+  max-width: 3%;
   padding: 3px 5px;
 }
 
 .file-info {
-  width: 1050px;
+  width: 67%;
   max-width: 1050px;
   padding: 3px 5px;
   vertical-align: middle;
@@ -38,8 +38,8 @@
 }
 
 .file-info-size {
-  width: 250px;
-  max-width: 250px;
+  width: 15%;
+  max-width: 15%;
   padding: 3px 5px;
   vertical-align: middle;
   overflow: hidden;
@@ -47,8 +47,8 @@
 }
 
 .file-info-time {
-  width: 250px;
-  max-width: 250px;
+  width: 15%;
+  max-width: 15%;
   padding: 3px 5px;
   vertical-align: middle;
   overflow: hidden;

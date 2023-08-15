@@ -3,7 +3,9 @@ async function handleBackendData() {
   const dataListElement = document.getElementById("dataList");
   dataListElement.innerHTML = null;
   const listTable = document.createElement("table");
+  listTable.classList.add("storage-entry");
   const listBody = document.createElement("tbody");
+  listBody.classList.add("storage-entry");
   try {
     // 从后端API获取数据
     fetch("/file/storages")
@@ -28,7 +30,7 @@ async function handleBackendData() {
           listItem.appendChild(storageType);
 
           const storagePath = document.createElement("td");
-          storagePath.textContent = "";
+          storagePath.textContent = item.path;
           storagePath.classList.add("storage-path");
           listItem.appendChild(storagePath);
 
