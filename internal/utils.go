@@ -2,6 +2,7 @@ package utils
 
 import (
 	"database/sql"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/spf13/viper"
@@ -42,4 +43,35 @@ func LinkDB() *sql.DB {
 		log.Fatal(err)
 	}
 	return db
+}
+
+type Resource interface {
+	Register(router *gin.RouterGroup)
+}
+
+func SetupResource(gr *gin.RouterGroup, resources ...Resource) {
+	for _, resource := range resources {
+		resource.Register(gr)
+	}
+}
+
+func AuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// 获取传入请求中的JWT令牌
+		tokenString := c.GetHeader("Authorization")
+
+		// 验证令牌是否有效
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			return []byte("your-secret-key"), nil // 替换为你的实际密钥
+		})
+
+		if err != nil || !token.Valid {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+			c.Abort()
+			return
+		}
+
+		// 令牌有效，继续处理请求
+		c.Next()
+	}
 }

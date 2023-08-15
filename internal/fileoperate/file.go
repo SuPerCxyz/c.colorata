@@ -33,9 +33,9 @@ func FileResource() *FileResourceStruct {
 }
 
 func (frs *FileResourceStruct) Register(router *gin.RouterGroup) {
-	router.POST("/file", frs.listDirFile)
-	router.POST("/file/download", frs.fileDownload)
-	router.POST("/file/upload", frs.fileUpload)
+	router.POST("/localfile", frs.listDirFile)
+	router.POST("/localfile/download", frs.fileDownload)
+	router.POST("/localfile/upload", frs.fileUpload)
 }
 
 func (frs *FileResourceStruct) listDirFile(c *gin.Context) {

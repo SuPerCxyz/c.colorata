@@ -30,7 +30,7 @@ function displayFiles(
         storage_name: storage_name,
         request_path: request_path,
       };
-      fetch("/api/file", {
+      fetch("/file/localfile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ function displayFiles(
     headerRow.appendChild(th1);
   } else {
     th1.classList.add("indexIcon");
-    headerRow.addEventListener("dblclick", () => {
+    headerRow.addEventListener("click", () => {
       handleBackendData();
     });
     headerRow.appendChild(th1);
@@ -84,12 +84,12 @@ function displayFiles(
     const contentType = document.createElement("td");
     if (item.content_type == "dir") {
       contentType.classList.add("folderIcon");
-      tr.addEventListener("dblclick", () => {
+      tr.addEventListener("click", () => {
         const requestData = {
           storage_name: storage_name,
           request_path: request_path,
         };
-        fetch("/api/file", {
+        fetch("/file/localfile", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -119,7 +119,7 @@ function displayFiles(
           storage_name: storage_name,
           request_path: request_path,
         };
-        fetch("/api/file/download", {
+        fetch("/file/localfile/download", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -180,7 +180,7 @@ function loadAndDisplayFiles(item) {
     request_path: request_path,
   };
 
-  fetch("/api/file", {
+  fetch("/file/localfile", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -255,7 +255,7 @@ function uploadFile() {
     formData.append("request_path", targetPath);
 
     try {
-      const response = await fetch("/api/file/upload", {
+      const response = await fetch("/file/localfile/upload", {
         method: "POST",
         body: formData,
         onUploadProgress: (progressEvent) => {

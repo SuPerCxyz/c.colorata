@@ -9,7 +9,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/SuPerCxyz/c.colorata/internal/api/fileoperate"
+	"github.com/SuPerCxyz/c.colorata/internal/fileoperate"
+	"github.com/SuPerCxyz/c.colorata/internal/user"
 )
 
 type Data struct {
@@ -37,6 +38,12 @@ func serverRun() {
 	ge.LoadHTMLGlob("web/*.html")
 	ge.Static("/web", "./web")
 	fileoperate.SetupRoutes(ge)
+	user.SetupRoutes(ge)
+
+	ge.GET("/login", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "login.html", nil)
+	})
+
 	ge.GET("/", func(c *gin.Context) {
 		data := Data{
 			Message: "Hello from the backend!",

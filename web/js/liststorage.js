@@ -6,7 +6,7 @@ async function handleBackendData() {
   const listBody = document.createElement("tbody");
   try {
     // 从后端API获取数据
-    fetch("/api/storages")
+    fetch("/file/storages")
       .then((response) => response.json())
       .then((data) => {
         data.data.forEach((item) => {
@@ -32,7 +32,7 @@ async function handleBackendData() {
           storagePath.classList.add("storage-path");
           listItem.appendChild(storagePath);
 
-          listItem.addEventListener("dblclick", () => {
+          listItem.addEventListener("click", () => {
             loadAndDisplayFiles(item);
           });
           listBody.appendChild(listItem);
@@ -129,7 +129,7 @@ function displayButtonAndModal() {
     });
     console.log(formData);
 
-    fetch("/api/storages", {
+    fetch("/file/storages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

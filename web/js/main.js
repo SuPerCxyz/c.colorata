@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  checkLoggedIn();
   displayButtonAndModal();
   handleBackendData();
 });
