@@ -7,8 +7,13 @@ async function handleBackendData() {
   const listBody = document.createElement("tbody");
   listBody.classList.add("storage-entry");
   try {
+    const token = localStorage.getItem("token");
     // 从后端API获取数据
-    fetch("/file/storages")
+    fetch("/file/storages", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         data.data.forEach((item) => {
@@ -34,7 +39,7 @@ async function handleBackendData() {
           storagePath.classList.add("storage-path");
           listItem.appendChild(storagePath);
 
-          listItem.addEventListener("click", () => {
+          listItem.addEventListener("dblclick", () => {
             loadAndDisplayFiles(item);
           });
           listBody.appendChild(listItem);
@@ -131,10 +136,12 @@ function displayButtonAndModal() {
     });
     console.log(formData);
 
+    const token = localStorage.getItem("token");
     fetch("/file/storages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(formData),
     })

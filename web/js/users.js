@@ -1,33 +1,3 @@
-function checkLoggedIn() {
-  const token = localStorage.getItem("token");
-  console.log(token);
-
-  if (!token) {
-    window.location.href = "/login";
-    return;
-  }
-
-  fetch("/auth/verify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        // Load the main content of the page
-        // Example: loadPageContent();
-      } else {
-        window.location.href = "/login";
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      window.location.href = "/login";
-    });
-}
-
 document.addEventListener("DOMContentLoaded", function () {
   const loginForm = document.getElementById("loginForm");
   const loginMessage = document.getElementById("loginMessage");

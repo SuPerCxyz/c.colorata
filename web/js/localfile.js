@@ -1,3 +1,106 @@
+function loadAndDisplayFiles(item) {
+  const step = 0;
+  const current_path = "";
+  const request_path = "";
+  const requestData = {
+    storage_name: item.name,
+    request_path: request_path,
+  };
+
+  fetch("/file/localfile", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(requestData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      displayFiles(
+        data.data,
+        step,
+        item.name,
+        item.storage_type,
+        current_path,
+        request_path
+      );
+    })
+    .catch((error) => {
+      showCustomAlert(error);
+    });
+}
+
+// 打开文件上传弹窗
+function openFileUploadDialog() {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.addEventListener("change", handleFileUpload);
+
+  const modal = document.createElement("div");
+  modal.id = "fileUploadModal";
+  modal.style.position = "fixed";
+  modal.style.top = "50%";
+  modal.style.left = "50%";
+  modal.style.transform = "translate(-50%, -50%)";
+  modal.style.background = "white";
+  modal.style.border = "1px solid #ccc";
+  modal.style.padding = "20px";
+
+  modal.appendChild(fileInput);
+  document.body.appendChild(modal);
+
+  document.addEventListener("click", (e) => {
+    if (!modal.contains(e.target)) {
+      modal.style.display = "none";
+    }
+  });
+}
+
+// 处理文件上传
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const formData = new FormData();
+    const tableHeader = document.querySelector("thead th:nth-child(2)");
+    const targetPath = tableHeader.textContent;
+    formData.append("file", file);
+    formData.append("request_path", targetPath);
+
+    const messageDiv = document.createElement("div");
+    messageDiv.style.position = "fixed";
+    messageDiv.style.top = "50%";
+    messageDiv.style.left = "50%";
+    messageDiv.style.transform = "translate(-50%, -50%)";
+    messageDiv.style.background = "white";
+    messageDiv.style.border = "1px solid #ccc";
+    messageDiv.style.padding = "20px";
+    document.body.appendChild(messageDiv);
+
+    fetch("/file/localfile/upload", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: formData,
+      onUploadProgress: (progressEvent) => {
+        const progress = Math.round(
+          (progressEvent.loaded / progressEvent.total) * 100
+        );
+        messageDiv.textContent = `上传中：${progress}%`;
+      },
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        messageDiv.textContent = responseData.message;
+      })
+      .catch((error) => {
+        messageDiv.textContent = "上传文件时发生错误";
+        console.error(error);
+      });
+  }
+}
+
 function displayFiles(
   data,
   step,
@@ -6,7 +109,6 @@ function displayFiles(
   current_path,
   request_path
 ) {
-  uploadFile();
   const dataList = document.getElementById("dataList");
   dataList.innerHTML = "";
   const listTable = document.createElement("table");
@@ -27,7 +129,7 @@ function displayFiles(
   if (step > 0) {
     const regex = /\/[^/]+$/;
     th1.classList.add("returnIcon");
-    headerRow.addEventListener("click", () => {
+    headerRow.addEventListener("dblclick", () => {
       request_path = current_path.replace(regex, "");
       const requestData = {
         storage_name: storage_name,
@@ -37,6 +139,7 @@ function displayFiles(
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(requestData),
       })
@@ -59,7 +162,7 @@ function displayFiles(
     headerRow.appendChild(th1);
   } else {
     th1.classList.add("indexIcon");
-    headerRow.addEventListener("click", () => {
+    headerRow.addEventListener("dblclick", () => {
       handleBackendData();
     });
     headerRow.appendChild(th1);
@@ -87,7 +190,7 @@ function displayFiles(
     const contentType = document.createElement("td");
     if (item.content_type == "dir") {
       contentType.classList.add("folderIcon");
-      tr.addEventListener("click", () => {
+      tr.addEventListener("dblclick", () => {
         const requestData = {
           storage_name: storage_name,
           request_path: request_path,
@@ -96,6 +199,7 @@ function displayFiles(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(requestData),
         })
@@ -126,6 +230,7 @@ function displayFiles(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify(requestData),
         })
@@ -172,125 +277,49 @@ function displayFiles(
   listTable.appendChild(listHeader);
   listTable.appendChild(listBody);
   dataList.appendChild(listTable);
-}
 
-function loadAndDisplayFiles(item) {
-  const step = 0;
-  const current_path = "";
-  const request_path = "";
-  const requestData = {
-    storage_name: item.name,
-    request_path: request_path,
-  };
+  const contextMenu = document.createElement("div");
+  contextMenu.id = "contextMenu";
+  contextMenu.style.display = "none";
+  contextMenu.style.position = "absolute";
+  contextMenu.style.background = "white";
+  contextMenu.style.border = "1px solid #ccc";
+  dataList.appendChild(contextMenu);
 
-  fetch("/file/localfile", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestData),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      displayFiles(
-        data.data,
-        step,
-        item.name,
-        item.storage_type,
-        current_path,
-        request_path
-      );
-    })
-    .catch((error) => {
-      showCustomAlert(error);
-    });
-}
-
-function uploadFile() {
-  const appDiv = document.getElementById("uploadfile");
-  appDiv.innerHTML = null;
-
-  // 创建上传文件按钮
-  const openUploadModalBtn = document.createElement("button");
-  openUploadModalBtn.textContent = "上传文件";
-
-  // 创建弹窗容器
-  const modalContainer = document.createElement("div");
-  modalContainer.id = "uploadModalContainer";
-
-  // 创建弹窗内容
-  const modalContent = document.createElement("div");
-  modalContent.id = "uploadModalContent";
-  modalContent.style.display = "none"; // 初始状态隐藏
-
-  const fileInput = document.createElement("input");
-  fileInput.type = "file";
-  fileInput.id = "fileInput";
-
-  const uploadButton = document.createElement("button");
-  uploadButton.textContent = "上传";
-  uploadButton.id = "modalUploadButton";
-
-  const messageDiv = document.createElement("div");
-  messageDiv.id = "modalMessage";
-
-  // 将元素添加到弹窗内容中
-  modalContent.appendChild(fileInput);
-  modalContent.appendChild(uploadButton);
-  modalContent.appendChild(messageDiv);
-
-  // 添加上传文件按钮点击事件处理
-  openUploadModalBtn.addEventListener("click", function () {
-    modalContent.style.display = "block"; // 显示弹窗内容
-  });
-
-  // 上传按钮点击事件处理
-  uploadButton.addEventListener("click", async () => {
-    const file = fileInput.files[0];
-    if (!file) {
-      messageDiv.textContent = "请选择要上传的文件";
-      return;
-    }
-    const tableHeader = document.querySelector("thead th:nth-child(2)");
-    const targetPath = tableHeader.textContent;
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("request_path", targetPath);
-
-    try {
-      const response = await fetch("/file/localfile/upload", {
-        method: "POST",
-        body: formData,
-        onUploadProgress: (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded / progressEvent.total) * 100
-          );
-          messageDiv.textContent = `上传中：${progress}%`;
-        },
+  const ul = document.createElement("ul");
+  const menuItems = ["上传文件demo"];
+  menuItems.forEach((itemText, index) => {
+    const li = document.createElement("li");
+    li.textContent = itemText;
+    if (index === 0) {
+      li.addEventListener("click", () => {
+        contextMenu.style.display = "none";
+        openFileUploadDialog();
       });
-
-      const responseData = await response.json();
-      messageDiv.textContent = responseData.message;
-    } catch (error) {
-      messageDiv.textContent = "上传文件时发生错误";
-      console.error(error);
+    } else {
+      li.addEventListener("click", () => {
+        contextMenu.style.display = "none";
+        // 在这里可以处理选项2和选项3的操作
+      });
     }
+    ul.appendChild(li);
+  });
+  contextMenu.appendChild(ul);
+
+  // 右键点击事件
+  listTable.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    const x = e.clientX;
+    const y = e.clientY;
+
+    contextMenu.style.left = `${x}px`;
+    contextMenu.style.top = `${y}px`;
+    contextMenu.style.display = "block";
   });
 
-  // // 设置弹窗容器样式
-  // modalContainer.style.display = "none"; // 初始状态隐藏
-  // // ...省略弹窗容器样式设置代码...
-
-  // // 监听页面点击事件
-  // document.addEventListener("click", function (event) {
-  //   const isClickInsideModal = modalContent.contains(event.target);
-  //   if (!isClickInsideModal) {
-  //     modalContent.style.display = "none"; // 点击弹窗外部，关闭弹窗
-  //   }
-  // });
-
-  // 将上传文件按钮和弹窗容器添加到页面
-  appDiv.appendChild(openUploadModalBtn);
-  appDiv.appendChild(modalContainer);
-  modalContainer.appendChild(modalContent);
+  document.addEventListener("click", (e) => {
+    if (!contextMenu.contains(e.target)) {
+      contextMenu.style.display = "none";
+    }
+  });
 }

@@ -9,6 +9,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type JSONResponse struct {
@@ -59,6 +60,12 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// 获取传入请求中的JWT令牌
 		tokenString := c.GetHeader("Authorization")
+		if len(tokenString) > 7 && strings.ToUpper(tokenString[0:6]) == "BEARER" {
+			tokenString = tokenString[7:]
+		} else {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token format"})
+			return
+		}
 
 		// 验证令牌是否有效
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

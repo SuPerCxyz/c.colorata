@@ -6,7 +6,10 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	// "log"
+	// "fmt"
 	"net/http"
+	// "os"
+	// "path/filepath"
 	"strconv"
 
 	"github.com/SuPerCxyz/c.colorata/internal/fileoperate"
@@ -35,14 +38,10 @@ func init() {
 func serverRun() {
 	ge := gin.Default()
 	ge.StaticFile("/favicon.ico", "web/img/favicon.ico")
-	ge.LoadHTMLGlob("web/*.html")
+	ge.LoadHTMLGlob("web/html/template/*.html")
 	ge.Static("/web", "./web")
 	fileoperate.SetupRoutes(ge)
 	user.SetupRoutes(ge)
-
-	ge.GET("/login", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "login.html", nil)
-	})
 
 	ge.GET("/", func(c *gin.Context) {
 		data := Data{
@@ -52,5 +51,6 @@ func serverRun() {
 			"data": data,
 		})
 	})
+
 	ge.Run(":" + strconv.Itoa(viper.GetInt("port")))
 }

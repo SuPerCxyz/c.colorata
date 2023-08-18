@@ -178,7 +178,6 @@ func (frs *FileResourceStruct) fileUpload(c *gin.Context) {
 	}
 
 	targetPath := dirPath + "/" + requestPath
-	fmt.Println(targetPath)
 
 	// 获取上传的文件
 	file, err := c.FormFile("file")

@@ -2,7 +2,6 @@ package user
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
@@ -109,7 +108,6 @@ func (as *AuthenticationStruct) verifyToken(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token format"})
 		return
 	}
-	fmt.Println(tokenString)
 	if isValidToken(tokenString) {
 		c.JSON(http.StatusOK, gin.H{"message": "Token is valid"})
 	} else {
