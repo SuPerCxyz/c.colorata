@@ -50,11 +50,17 @@ function openFileUploadDialog() {
   modal.appendChild(fileInput);
   document.body.appendChild(modal);
 
-  document.addEventListener("click", (e) => {
-    if (!modal.contains(e.target)) {
-      modal.style.display = "none";
-    }
-  });
+  // // 阻止弹窗内点击事件冒泡
+  // modal.addEventListener("click", (event) => {
+  //   event.stopPropagation();
+  // });
+
+  // // 在 document 上监听点击事件
+  // document.addEventListener("click", (event) => {
+  //   if (!modal.contains(event.target)) {
+  //     modal.remove();
+  //   }
+  // });
 }
 
 // 处理文件上传
@@ -76,6 +82,7 @@ function handleFileUpload(event) {
     messageDiv.style.border = "1px solid #ccc";
     messageDiv.style.padding = "20px";
     document.body.appendChild(messageDiv);
+    const fileUploadModal = document.getElementById("fileUploadModal");
 
     fetch("/file/localfile/upload", {
       method: "POST",
@@ -98,6 +105,10 @@ function handleFileUpload(event) {
         messageDiv.textContent = "上传文件时发生错误";
         console.error(error);
       });
+    fileUploadModal.style.display = "none";
+    setTimeout(() => {
+      messageDiv.remove();
+    }, 1000);
   }
 }
 
@@ -286,19 +297,56 @@ function displayFiles(
   contextMenu.style.border = "1px solid #ccc";
   dataList.appendChild(contextMenu);
 
-  const ul = document.createElement("ul");
-  const menuItems = ["上传文件demo"];
+  // const ul = document.createElement("ul");
+  // const menuItems = ["上传文件demo"];
+  // menuItems.forEach((itemText, index) => {
+  //   const li = document.createElement("li");
+  //   li.textContent = itemText;
+  //   if (index === 0) {
+  //     li.addEventListener("click", () => {
+  //       contextMenu.style.display = "none";
+  //       openFileUploadDialog();
+  //     });
+  //   } else {
+  //     li.addEventListener("click", () => {
+  //       contextMenu.style.display = "none";
+  //       // 在这里可以处理选项2和选项3的操作
+  //     });
+  //   }
+  //   ul.appendChild(li);
+  // });
+  // contextMenu.appendChild(ul);
+
+  // // 右键点击事件
+  // listTable.addEventListener("contextmenu", (e) => {
+  //   e.preventDefault();
+  //   const x = e.clientX;
+  //   const y = e.clientY;
+
+  //   contextMenu.style.left = `${x}px`;
+  //   contextMenu.style.top = `${y}px`;
+  //   contextMenu.style.display = "block";
+  // });
+
+  // document.addEventListener("click", (e) => {
+  //   if (!contextMenu.contains(e.target)) {
+  //     contextMenu.style.display = "none";
+  //   }
+  // });
+
+  const ul = document.createElement('ul');
+  const menuItems = ['上传文件demo'];
   menuItems.forEach((itemText, index) => {
-    const li = document.createElement("li");
+    const li = document.createElement('li');
     li.textContent = itemText;
     if (index === 0) {
-      li.addEventListener("click", () => {
-        contextMenu.style.display = "none";
+      li.addEventListener('click', () => {
+        contextMenu.style.display = 'none';
         openFileUploadDialog();
       });
     } else {
-      li.addEventListener("click", () => {
-        contextMenu.style.display = "none";
+      li.addEventListener('click', () => {
+        contextMenu.style.display = 'none';
         // 在这里可以处理选项2和选项3的操作
       });
     }
@@ -307,19 +355,19 @@ function displayFiles(
   contextMenu.appendChild(ul);
 
   // 右键点击事件
-  listTable.addEventListener("contextmenu", (e) => {
+  listTable.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     const x = e.clientX;
     const y = e.clientY;
 
     contextMenu.style.left = `${x}px`;
     contextMenu.style.top = `${y}px`;
-    contextMenu.style.display = "block";
+    contextMenu.style.display = 'block';
   });
 
-  document.addEventListener("click", (e) => {
+  document.addEventListener('click', (e) => {
     if (!contextMenu.contains(e.target)) {
-      contextMenu.style.display = "none";
+      contextMenu.style.display = 'none';
     }
   });
 }

@@ -187,7 +187,6 @@ func (frs *FileResourceStruct) fileUpload(c *gin.Context) {
 	}
 
 	filePath := filepath.Join(targetPath, file.Filename)
-	fmt.Println(filePath)
 	if err := c.SaveUploadedFile(file, filePath); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
